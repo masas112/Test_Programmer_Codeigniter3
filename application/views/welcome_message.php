@@ -10,11 +10,14 @@
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
 	<h1 class="display-4">Tabel Produk</h1>
 </div>
-<div class="text-center">
-	<button class="btn btn-sm btn-success mb-3" data-toggle="modal" data-target="#tambahproduk">Tambah Produk</button>
-</div>
+
 <div class="card-body row">
 	<div class="container">
+		<div class="text-center">
+			<button class="btn btn-sm btn-success mb-3" data-toggle="modal" data-target="#tambahproduk">Tambah Produk</button>
+			<button class="btn btn-sm btn-success mb-3" onclick="semuaData()">Tampilkan Semua Barang</button>
+			<button id="bt_data" class="btn btn-sm btn-primary mb-3" onclick="gantiData()">Data Tidak DiJual</button>
+		</div>
 		<table id="tabelproduk" class="table" width cellspacing="0">
 			<thead>
 				<tr>
@@ -26,7 +29,7 @@
 					<th scope="col">Opsi</th>
 				</tr>
 			</thead>
-			<tbody>
+			<!-- <tbody>
 				<?php foreach ($produk as $p) : ?>
 					<tr>
 						<th scope="row"><?= $p->id_produk; ?></th>
@@ -43,7 +46,7 @@
 						</td>
 					</tr>
 				<?php endforeach; ?>
-			</tbody>
+			</tbody> -->
 		</table>
 	</div>
 </div>
@@ -239,22 +242,40 @@
 
 
 <script>
+	i = 0;
 	document.addEventListener('DOMContentLoaded', function() {
-		tampilkanTabel('semua');
+		tampilkanTabel(3);
 	});
 
-	function Delete(id) {
-		document.getElementById('hapusid').value = id;
+	function semuaData() {
+		deletetabel();
+		tampilkanTabel(3);
+	}
+
+	function gantiData() {
+		deletetabel();
+		switch (i) {
+			case 0:
+				tampilkanTabel(0);
+				i = 1;
+				document.getElementById('bt_data').innerHTML = "Di Jual";
+				break;
+			case 1:
+				tampilkanTabel(1);
+				i = 0;
+				document.getElementById('bt_data').innerHTML = "Tidak Di Jual";
+				break;
+			default:
+		}
 	}
 
 	function tampilkanTabel(statustabel) {
 		var produk = <?php echo json_encode($produk); ?>;
 
 		produk.forEach(function(p) {
-			if (statustabel == p.status) {
-				console.log(p.nama_produk);
+			if (statustabel == 3) {
 				tambahkanDataTabel(p.id_produk, p.nama_produk, p.kategori, p.harga, p.status);
-			} else if (statustabel == 'semua') {
+			} else if (statustabel == p.status) {
 				tambahkanDataTabel(p.id_produk, p.nama_produk, p.kategori, p.harga, p.status);
 			}
 		});
@@ -283,5 +304,17 @@
 		document.getElementById('editkategori').value = kategori;
 		document.getElementById('editharga').value = harga;
 		document.getElementById('editstatus').value = status;
+	}
+
+	function Delete(id) {
+		document.getElementById('hapusid').value = id;
+	}
+
+	function deletetabel() {
+		tabel = document.getElementById('tabelproduk');
+
+		for (let a = tabel.rows.length - 1; a > 0; a--) {
+			tabel.deleteRow(a);
+		}
 	}
 </script>
