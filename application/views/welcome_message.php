@@ -56,7 +56,11 @@
 							<td><?= $p->nama_produk ?></td>
 							<td><?= $p->kategori ?></td>
 							<td><?= $p->harga ?></td>
-							<td><?= $p->status ?></td>
+							<td><?php if ($p->status == 0) {
+									echo 'Di jual';
+								} else {
+									echo 'tidak dijual';
+								} ?></td>
 							<td><button class="btn btn-sm btn-primary " data-toggle="modal" data-target="#editproduk" onclick="Edit('<?= $p->id_produk ?>','<?= $p->nama_produk ?> ','<?= $p->kategori ?>','<?= $p->harga ?>','<?= $p->status ?>')">Edit</button>
 								<button class="btn btn-sm btn-danger " data-toggle="modal" data-target="#hapusproduk" onclick="Delete(<?= $p->id_produk ?>)"> Hapus</button>
 							</td>
@@ -92,10 +96,7 @@
 								<label for="">Kategori : </label>
 							</div>
 							<div class="col-lg-9">
-								<select id="kategori" class="form-control" name="kategori" required>
-									<option value="" selected disabled>Pilih Kategori</option>
-									<option value="{{ $p->id }}"></option>
-								</select>
+								<input type="text" id="kategori" class="form-control" name="kategori" required>
 							</div>
 						</div>
 						<div class="row mb-3">

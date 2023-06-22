@@ -36,5 +36,15 @@ class Produk extends CI_Controller
 
     public function edit()
     {
+        $data = array(
+            'id_produk' => $this->input->post('id'),
+            'nama_produk' => $this->input->post('nama_produk'),
+            'kategori' => $this->input->post('kategori'),
+            'harga' => $this->input->post('harga'),
+            'status' => $this->input->post('status'),
+        );
+
+        $this->m_produk->Update($data);
+        redirect('welcome/index');
     }
 }
