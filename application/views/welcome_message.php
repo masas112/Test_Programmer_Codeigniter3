@@ -272,7 +272,10 @@
 				var row = table.insertRow();
 				row.insertCell(0).innerHTML = "Nilai s";
 				row.insertCell(1).innerHTML = "Nilai 1";
-
+				row.insertCell(2).innerHTML = "Nilai 1";
+				row.insertCell(3).innerHTML = "Nilai 1";
+				row.insertCell(4).innerHTML = "Nilai 1";
+				row.insertCell(5).innerHTML = "<button class='btn btn-sm btn-primary' style='margin-right: 10px;' data-toggle='modal' data-target='#editproduk'>Edit</button><button class='btn btn-sm btn-danger ' data-toggle='modal' data-target='#hapusproduk'> Hapus</button>";
 			}
 			// tabel.querySelectorAll
 		});
