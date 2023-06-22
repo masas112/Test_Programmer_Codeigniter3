@@ -6,11 +6,11 @@ class Welcome extends CI_Controller
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('Produk');
+		$this->load->model('m_produk');
 	}
 	public function index()
 	{
-		$db['produk'] = $this->Produk->GetData();
+		$db['produk'] = $this->m_produk->GetData();
 		$this->load->view('welcome_message', $db);
 	}
 }

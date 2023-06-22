@@ -57,8 +57,8 @@
 							<td><?= $p->kategori ?></td>
 							<td><?= $p->harga ?></td>
 							<td><?= $p->status ?></td>
-							<td><button class="btn btn-sm btn-primary " data-toggle="modal" data-target="#editproduk"><i class="fas fa-sm fa-edit"></i> Edit</button>
-								<button class="btn btn-sm btn-danger " data-toggle="modal" data-target="#hapusproduk"><i class="fas fa-sm fa-trash"></i> Hapus</button>
+							<td><button class="btn btn-sm btn-primary " data-toggle="modal" data-target="#editproduk" onclick="Edit('<?= $p->id_produk ?>','<?= $p->nama_produk ?> ','<?= $p->kategori ?>','<?= $p->harga ?>','<?= $p->status ?>')">Edit</button>
+								<button class="btn btn-sm btn-danger " data-toggle="modal" data-target="#hapusproduk" onclick="Delete(<?= $p->id_produk ?>)"> Hapus</button>
 							</td>
 						</tr>
 					<?php endforeach; ?>
@@ -68,7 +68,7 @@
 	</div>
 
 	<!-- Modal Tambah -->
-	<div class="modal fade" id="tambahproduk" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class=" modal fade" id="tambahproduk" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -77,9 +77,8 @@
 						<span aria-hidden="true">×</span>
 					</button>
 				</div>
-				<form action="/tambahproduk" method="post">
+				<form action="<?php echo base_url() ?>produk/add" method="post">
 					<div class="modal-body">
-						<input type="text" id="editid" name="id" hidden>
 						<div class="row mb-3">
 							<div class="col-lg-3">
 								<label for="">Nama Produk : </label>
@@ -114,8 +113,8 @@
 							<div class="col-lg-9">
 								<select id="status" class="form-control" name="status" required>
 									<option value="" selected disabled>Pilih Status</option>
-									<option value="dijual">Di jual</option>
-									<option value="dijual">Tidak Dijual</option>
+									<option value="1">Di jual</option>
+									<option value="0">Tidak Dijual</option>
 								</select>
 							</div>
 						</div>
@@ -139,7 +138,7 @@
 						<span aria-hidden="true">×</span>
 					</button>
 				</div>
-				<form action="/editproduk" method="POST">
+				<form action="<?php echo base_url() ?>produk/edit" method="POST">
 					<div class="modal-body">
 						<input type="text" id="editid" name="id" hidden>
 						<div class="row mb-3">
@@ -157,7 +156,9 @@
 							<div class="col-lg-9">
 								<select id="editkategori" class="form-control" name="kategori" required>
 									<option value="" selected disabled>Pilih Kategori</option>
-									<option value="{{ $p->id }}"></option>
+									<?php foreach ($produk as $p) : ?>
+										<option value="<?= $p->kategori ?>"><?= $p->kategori ?></option>
+									<?php endforeach; ?>
 								</select>
 							</div>
 						</div>
@@ -176,8 +177,8 @@
 							<div class="col-lg-9">
 								<select id="editstatus" class="form-control" name="status" required>
 									<option value="" selected disabled>Pilih Status</option>
-									<option value="dijual">Di jual</option>
-									<option value="dijual">Tidak Dijual</option>
+									<option value="1">Di jual</option>
+									<option value="0">Tidak Dijual</option>
 								</select>
 							</div>
 						</div>
@@ -201,11 +202,12 @@
 						<span aria-hidden="true">×</span>
 					</button>
 				</div>
-				<form action="/hapusproduk" method="post">
+				<form action="<?php echo base_url() ?>produk/delete" method="post">
 					<div class="modal-body">
 						Apakah anda yakin untuk hapus ?
-						<input type="text" id="hapusid" name="id" hidden>
+
 					</div>
+					<input type="text" id="hapusid" class="form-control" name="id">
 					<div class="modal-footer">
 						<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
 						<button class="btn btn-primary" type="submit">Delete</button>
@@ -253,6 +255,26 @@
 		</div>
 	</footer>
 	</div>
+
+
+
+
+
+	<script>
+		function Delete(id) {
+			document.getElementById('hapusid').value = id;
+		}
+
+		function Edit(id, nama_produk, kategori, harga, status) {
+			document.getElementById('editid').value = id;
+			document.getElementById('editnama_produk').value = nama_produk;
+			document.getElementById('editkategori').value = kategori;
+			document.getElementById('editharga').value = harga;
+			document.getElementById('editstatus').value = status;
+
+			console.log(status);
+		}
+	</script>
 
 
 	<!-- Bootstrap core JavaScript

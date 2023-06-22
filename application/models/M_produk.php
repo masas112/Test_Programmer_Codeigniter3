@@ -1,7 +1,7 @@
 <?php
 
 
-class Produk extends CI_Model
+class M_produk extends CI_Model
 {
     public function GetData()
     {
@@ -13,11 +13,13 @@ class Produk extends CI_Model
     {
     }
 
-    public function Tambah()
+    public function Tambah($data)
     {
+        $this->db->insert('product', $data);
     }
 
-    public function Delete()
+    public function Delete($id)
     {
+        $this->db->where('id_produk', $id)->delete('product');
     }
 }
