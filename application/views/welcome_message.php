@@ -56,7 +56,7 @@
 							<td><?= $p->nama_produk ?></td>
 							<td><?= $p->kategori ?></td>
 							<td><?= $p->harga ?></td>
-							<td><?php if ($p->status == 0) {
+							<td><?php if ($p->status == 1) {
 									echo 'Di jual';
 								} else {
 									echo 'tidak dijual';
@@ -114,8 +114,8 @@
 							<div class="col-lg-9">
 								<select id="status" class="form-control" name="status" required>
 									<option value="" selected disabled>Pilih Status</option>
-									<option value="1">Di jual</option>
-									<option value="0">Tidak Dijual</option>
+									<option value="0">Di jual</option>
+									<option value="1">Tidak Dijual</option>
 								</select>
 							</div>
 						</div>
@@ -263,22 +263,40 @@
 
 	<script>
 		document.addEventListener('DOMContentLoaded', function() {
+			tampilkanTabel(1);
+		});
+
+		function tampilkanTabel(statustabel) {
 			var produk = <?php echo json_encode($produk); ?>;
 			console.log(produk);
 			const table = document.getElementById('tabelproduk');
 			// var row = table.insertRow();
 
-			for (i = 0; i < 15; i++) {
-				var row = table.insertRow();
-				row.insertCell(0).innerHTML = "Nilai s";
-				row.insertCell(1).innerHTML = "Nilai 1";
-				row.insertCell(2).innerHTML = "Nilai 1";
-				row.insertCell(3).innerHTML = "Nilai 1";
-				row.insertCell(4).innerHTML = "Nilai 1";
-				row.insertCell(5).innerHTML = "<button class='btn btn-sm btn-primary' style='margin-right: 10px;' data-toggle='modal' data-target='#editproduk'>Edit</button><button class='btn btn-sm btn-danger ' data-toggle='modal' data-target='#hapusproduk'> Hapus</button>";
-			}
-			// tabel.querySelectorAll
-		});
+			produk.forEach(function(p) {
+				if (p.status == 1) {
+					temp = "Di Jual";
+				} else {
+					temp = "Tidak Di Jual";
+				}
+				if (statustabel == p.status) {
+					var row = table.insertRow();
+					row.insertCell(0).innerHTML = '<b>' + p.id_produk + '</b>';
+					row.insertCell(1).innerHTML = p.nama_produk;
+					row.insertCell(2).innerHTML = p.kategori;
+					row.insertCell(3).innerHTML = p.harga;
+					row.insertCell(4).innerHTML = temp;
+					row.insertCell(5).innerHTML = "<button class='btn btn-sm btn-primary' style='margin-right: 10px;' data-toggle='modal' data-target='#editproduk' onclick='Edit(" + p.id_produk + "," + p.nama_produk + "," + p.kategori + "," + p.harga + "," + p.status + ")'>Edit</button><button class='btn btn-sm btn-danger ' data-toggle='modal' data-target='#hapusproduk' onclick='Delete(" + p.id_produk + ")'> Hapus</button>";
+				} else if (statustabel != 0 && statustabel != 1) {
+					var row = table.insertRow();
+					row.insertCell(0).innerHTML = '<b>' + p.id_produk + '</b>';
+					row.insertCell(1).innerHTML = p.nama_produk;
+					row.insertCell(2).innerHTML = p.kategori;
+					row.insertCell(3).innerHTML = p.harga;
+					row.insertCell(4).innerHTML = temp;
+					row.insertCell(5).innerHTML = "<button class='btn btn-sm btn-primary' style='margin-right: 10px;' data-toggle='modal' data-target='#editproduk' onclick='Edit(" + p.id_produk + "," + p.nama_produk + "," + p.kategori + "," + p.harga + "," + p.status + ")'>Edit</button><button class='btn btn-sm btn-danger ' data-toggle='modal' data-target='#hapusproduk' onclick='Delete(" + p.id_produk + ")'> Hapus</button>";
+				}
+			});
+		}
 
 
 		function Delete(id) {
