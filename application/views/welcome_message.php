@@ -84,7 +84,7 @@
 							<label for="">Harga : </label>
 						</div>
 						<div class="col-lg-9">
-							<input type="text" id="harga" class="form-control" name="harga" required>
+							<input type="text" id="harga" class="form-control" name="harga" inputmode="numeric" pattern="[0-9]*" placeholder="Masukkan Angka" required>
 						</div>
 					</div>
 					<div class="row mb-3">
@@ -148,7 +148,7 @@
 							<label for="">Harga : </label>
 						</div>
 						<div class="col-lg-9">
-							<input type="text" id="editharga" class="form-control" name="harga" required>
+							<input type="text" id="editharga" class="form-control" name="harga" inputmode="numeric" pattern="[0-9]*" placeholder="Masukkan Angka" required>
 						</div>
 					</div>
 					<div class="row mb-3">
