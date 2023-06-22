@@ -38,7 +38,7 @@
 	</div>
 	<div class="card-body row">
 		<div class="container">
-			<table class="table" width cellspacing="0">
+			<table id="tabelproduk" class="table" width cellspacing="0">
 				<thead>
 					<tr>
 						<th scope="col">ID</th>
@@ -208,7 +208,7 @@
 						Apakah anda yakin untuk hapus ?
 
 					</div>
-					<input type="text" id="hapusid" class="form-control" name="id">
+					<input type="text" id="hapusid" class="form-control" name="id" hidden>
 					<div class="modal-footer">
 						<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
 						<button class="btn btn-primary" type="submit">Delete</button>
@@ -262,6 +262,22 @@
 
 
 	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			var produk = <?php echo json_encode($produk); ?>;
+			console.log(produk);
+			const table = document.getElementById('tabelproduk');
+			// var row = table.insertRow();
+
+			for (i = 0; i < 15; i++) {
+				var row = table.insertRow();
+				row.insertCell(0).innerHTML = "Nilai s";
+				row.insertCell(1).innerHTML = "Nilai 1";
+
+			}
+			// tabel.querySelectorAll
+		});
+
+
 		function Delete(id) {
 			document.getElementById('hapusid').value = id;
 		}
