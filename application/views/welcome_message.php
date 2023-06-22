@@ -91,8 +91,8 @@
 						<div class="col-lg-9">
 							<select id="status" class="form-control" name="status" required>
 								<option value="" selected disabled>Pilih Status</option>
-								<option value="0">Di jual</option>
-								<option value="1">Tidak Dijual</option>
+								<option value="1">Di jual</option>
+								<option value="0">Tidak Dijual</option>
 							</select>
 						</div>
 					</div>
@@ -240,53 +240,48 @@
 
 <script>
 	document.addEventListener('DOMContentLoaded', function() {
-		tampilkanTabel(3);
+		tampilkanTabel('semua');
 	});
-
-	function tampilkanTabel(statustabel) {
-		var produk = <?php echo json_encode($produk); ?>;
-		console.log(produk);
-		const table = document.getElementById('tabelproduk');
-		// var row = table.insertRow();
-
-		produk.forEach(function(p) {
-			if (p.status == 1) {
-				temp = "Di Jual";
-			} else {
-				temp = "Tidak Di Jual";
-			}
-			if (statustabel == p.status) {
-				var row = table.insertRow();
-				row.insertCell(0).innerHTML = '<b>' + p.id_produk + '</b>';
-				row.insertCell(1).innerHTML = p.nama_produk;
-				row.insertCell(2).innerHTML = p.kategori;
-				row.insertCell(3).innerHTML = p.harga;
-				row.insertCell(4).innerHTML = temp;
-				row.insertCell(5).innerHTML = "<button class='btn btn-sm btn-primary' style='margin-right: 10px;' data-toggle='modal' data-target='#editproduk' onclick='Edit(" + p.id_produk + "," + p.nama_produk + "," + p.kategori + "," + p.harga + "," + p.status + ")'>Edit</button><button class='btn btn-sm btn-danger ' data-toggle='modal' data-target='#hapusproduk' onclick='Delete(" + p.id_produk + ")'> Hapus</button>";
-			} else if (statustabel != 0 && statustabel != 1) {
-				var row = table.insertRow();
-				row.insertCell(0).innerHTML = '<b>' + p.id_produk + '</b>';
-				row.insertCell(1).innerHTML = p.nama_produk;
-				row.insertCell(2).innerHTML = p.kategori;
-				row.insertCell(3).innerHTML = p.harga;
-				row.insertCell(4).innerHTML = temp;
-				row.insertCell(5).innerHTML = "<button class='btn btn-sm btn-primary' style='margin-right: 10px;' data-toggle='modal' data-target='#editproduk' onclick='Edit(" + p.id_produk + "," + p.nama_produk + "," + p.kategori + "," + p.harga + "," + p.status + ")'>Edit</button><button class='btn btn-sm btn-danger ' data-toggle='modal' data-target='#hapusproduk' onclick='Delete(" + p.id_produk + ")'> Hapus</button>";
-			}
-		});
-	}
-
 
 	function Delete(id) {
 		document.getElementById('hapusid').value = id;
 	}
 
+	function tampilkanTabel(statustabel) {
+		var produk = <?php echo json_encode($produk); ?>;
+
+		produk.forEach(function(p) {
+			if (statustabel == p.status) {
+				console.log(p.nama_produk);
+				tambahkanDataTabel(p.id_produk, p.nama_produk, p.kategori, p.harga, p.status);
+			} else if (statustabel == 'semua') {
+				tambahkanDataTabel(p.id_produk, p.nama_produk, p.kategori, p.harga, p.status);
+			}
+		});
+	}
+
+	function tambahkanDataTabel(id, nama_produk, kategori, harga, status) {
+		if (status == 1) {
+			temp = "Di Jual";
+		} else {
+			temp = "Tidak Di Jual";
+		}
+		const table = document.getElementById('tabelproduk');
+		var row = table.insertRow();
+		row.insertCell(0).innerHTML = '<b>' + id + '</b>';
+		row.insertCell(1).innerHTML = nama_produk;
+		row.insertCell(2).innerHTML = kategori;
+		row.insertCell(3).innerHTML = harga;
+		row.insertCell(4).innerHTML = temp;
+		row.insertCell(5).innerHTML = "<button class='btn btn-sm btn-primary' style='margin-right: 10px;' data-toggle='modal' data-target='#editproduk' onclick='Edit(" + id + ",\"" + nama_produk + "\",\"" + kategori + "\"," + harga + "," + status + ")'>Edit</button><button class='btn btn-sm btn-danger ' data-toggle='modal' data-target='#hapusproduk' onclick='Delete(" + id + ")'> Hapus</button>";
+	}
+
 	function Edit(id, nama_produk, kategori, harga, status) {
+		console.log(nama_produk);
 		document.getElementById('editid').value = id;
 		document.getElementById('editnama_produk').value = nama_produk;
 		document.getElementById('editkategori').value = kategori;
 		document.getElementById('editharga').value = harga;
 		document.getElementById('editstatus').value = status;
-
-		console.log(status);
 	}
 </script>
