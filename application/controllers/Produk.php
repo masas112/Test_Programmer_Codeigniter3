@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+
 class Produk extends CI_Controller
 {
     function __construct()
@@ -50,53 +51,43 @@ class Produk extends CI_Controller
 
     public function koneksiAPI()
     {
+
+        $this->load->library('guzzle');
         date_default_timezone_set('Asia/Singapore');
-        $url = "https://recruitment.fastprint.co.id/tes/api_tes_programmer";
+        # guzzle client define
+        $client     = new GuzzleHttp\Client(['verify' => false]);
+
         $username = "tesprogrammer" . date('d') . date('m') . date('y') . "C" . date('H');
         $password = "bisacoding-" . date('d') . "-" . date('m') . "-" . date('y');
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(
-            array(
-                'username' => 'tesprogrammer230623C00', 'password' => '43d85a4391fa66039cabc5c65ee715b8',
-            )
-        ));
+        $queryParams = array(
+            'username' => $username,
+            'password' => md5($password)
+        );
 
 
-        $response = curl_exec($ch);
-        $dataJSON = json_decode($response);
-        var_dump($dataJSON);
-        curl_close($ch);
+        #This url define speific Target for guzzle
+        $url        = 'https://recruitment.fastprint.co.id/tes/api_tes_programmer';
+
+        #guzzle
         try {
-            if ($dataJSON == null) {
-                throw new Exception("Server Down");
-            }
-            $data = $dataJSON->data;
-            foreach ($data as $item) {
-                $no = $item->no; // Mengambil nilai dari properti 'no'
-                $id_produk = $item->id_produk; // Mengambil nilai dari properti 'id_produk'
-                $nama_produk = $item->nama_produk; // Mengambil nilai dari properti 'nama_produk'
-                $kategori = $item->kategori; // Mengambil nilai dari properti 'kategori'
-                $harga = $item->harga; // Mengambil nilai dari properti 'harga'
-                $status = $item->status; // Mengambil nilai dari properti 'status'
+            # guzzle post request example with form parameter
+            $response = $client->request(
+                'POST',
+                $url,
+                [
+                    'form_params'
+                    => $queryParams
+                ]
+            );
 
-                // Menampilkan nilai-nilai yang telah diambil
-                // echo "No: " . $no . "<br>";
-                // echo "ID Produk: " . $id_produk . "<br>";
-                // echo "Nama Produk: " . $nama_produk . "<br>";
-                // echo "Kategori: " . $kategori . "<br>";
-                // echo "Harga: " . $harga . "<br>";
-                // echo "Status: " . $status . "<br>";
-            }
-        } catch (Exception $e) {
-            echo 'Pesan : ' . $e->getMessage();
-            die;
+            $dataJSON = json_decode($response->getBody());
+            var_dump($dataJSON->data);
+        } catch (GuzzleHttp\Exception\BadResponseException $e) {
+            #guzzle repose for future use
+            $response = $e->getResponse();
+            $responseBodyAsString = $response->getBody()->getContents();
+            print_r($responseBodyAsString);
         }
-
-
-        return $data;
     }
 }
