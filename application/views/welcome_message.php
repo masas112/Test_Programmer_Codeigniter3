@@ -7,8 +7,9 @@
 		<div class="text-center">
 			<button class="btn btn-sm btn-success mb-3" data-toggle="modal" data-target="#tambahproduk">Tambah Produk</button>
 			<button class="btn btn-sm btn-success mb-3" onclick="semuaData()">Tampilkan Semua Barang</button>
-			<button id="bt_data" class="btn btn-sm btn-primary mb-3" onclick="gantiData()">Data Tidak DiJual</button>
-			<button id="bt_data" class="btn btn-sm btn-primary mb-3" onclick="DataApi()">Data API</button>
+			<button id="bt_data" class="btn btn-sm btn-success mb-3" onclick="gantiData()">Data Tidak DiJual</button>
+			<button class="btn btn-sm btn-primary mb-3" onclick="AksesAPI('tampilkan')">Data API</button>
+			<button class="btn btn-sm btn-primary mb-3" onclick="AksesAPI('tambahkan')">Tambah Data API Ke DB</button>
 		</div>
 		<table id="tabelproduk" class="table" width cellspacing="0">
 			<thead>
@@ -263,7 +264,7 @@
 		row.insertCell(2).innerHTML = kategori;
 		row.insertCell(3).innerHTML = harga;
 		row.insertCell(4).innerHTML = temp;
-		row.insertCell(5).innerHTML = "<button class='btn btn-sm btn-primary' style='margin-right: 10px;' data-toggle='modal' data-target='#editproduk' onclick='Edit(" + id + ",\"" + nama_produk + "\",\"" + kategori + "\"," + harga + "," + status + ")'>Edit</button><button class='btn btn-sm btn-danger ' data-toggle='modal' data-target='#hapusproduk' onclick='Delete(" + id + ")'> Hapus</button>";
+		row.insertCell(5).innerHTML = "<button class='btn btn-sm btn-primary'id='editButton' style='margin-right: 10px;' data-toggle='modal' data-target='#editproduk' onclick='Edit(" + id + ",\"" + nama_produk + "\",\"" + kategori + "\"," + harga + "," + status + ")'>Edit</button><button class='btn btn-sm btn-danger ' data-toggle='modal'  data-target='#hapusproduk' onclick='Delete(" + id + ")'> Hapus</button>";
 	}
 
 	function Edit(id, nama_produk, kategori, harga, status) {
@@ -287,28 +288,29 @@
 		}
 	}
 
-	function DataApi() {
-		let a;
+	function DataApi(callback) {
 		$.ajax({
 			type: "POST",
 			url: "<?php echo site_url(); ?>api/getdataapi",
 			success: function(data) {
-				deletetabel();
-
 				data = JSON.parse(data);
+				callback(data);
+			},
+		});
+	}
 
+	function AksesAPI(cek) {
+		if (cek == 'tampilkan') {
+			DataApi(function(data) {
+				deletetabel();
 				data.forEach(function(p) {
-					console.log("ID Produk: " + p.id_produk);
-					console.log("Nama Produk: " + p.nama_produk);
-					console.log("Kategori: " + p.kategori);
-					console.log("Harga: " + p.harga);
-					console.log("Status: " + p.status);
-
 					tambahkanDataTabel(p.id_produk, p.nama_produk, p.kategori, p.harga, p.status);
 				});
-
-			},
-
-		});
+			});
+		} else if (cek == 'tambahkan') {
+			DataApi(function(data) {
+				console.log(data);
+			});
+		}
 	}
 </script>
