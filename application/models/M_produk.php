@@ -6,6 +6,7 @@ class M_produk extends CI_Model
     public function GetData()
     {
         $data = $this->db->query("SELECT * FROM product ORDER BY id_produk ASC");
+        $this->db->query("CALL increment_store()");
         return $data->result();
     }
 
@@ -22,6 +23,5 @@ class M_produk extends CI_Model
     public function Delete($id, $cek)
     {
         $this->db->where($cek, $id)->delete('product');
-        $this->db->query("CALL increment_store()");
     }
 }

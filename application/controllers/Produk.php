@@ -25,29 +25,23 @@ class Produk extends CI_Controller
         );
 
         $this->m_produk->Tambah($data);
-        redirect('welcome/index');
+        redirect(base_url());
     }
 
-    public function addAPI($nama_produk, $kategori, $harga, $status)
-    {
-
-        $data = array(
-            'nama_produk' => $nama_produk,
-            'kategori' => $kategori,
-            'harga' => $harga,
-            'status' =>  $status
-        );
-
-        $this->m_produk->Tambah($data);
-    }
 
     public function delete()
     {
+        $cek = 'id_produk';
         $id_produk = $this->input->post('id');
         $this->m_produk->delete($id_produk, 'id_produk');
-        redirect('welcome/index');
+        redirect(base_url());
     }
 
+    public function deleteAPI()
+    {
+        $nama_produk = $this->input->post('nama_produk');
+        $this->m_produk->delete($nama_produk, 'nama_produk');
+    }
 
     public function edit()
     {
@@ -60,6 +54,6 @@ class Produk extends CI_Controller
         );
 
         $this->m_produk->Update($data);
-        redirect('welcome/index');
+        redirect(base_url());
     }
 }

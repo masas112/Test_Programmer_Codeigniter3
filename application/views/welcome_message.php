@@ -328,8 +328,27 @@
 				});
 
 				setTimeout(function() {
-					window.location.replace("welcome/index");
+					window.location.replace("<?php echo base_url('welcome/index') ?>");
 				}, 3000);
+			});
+		} else if (cek == 'hapus') {
+			DataApi(function(dataAPI) {
+				dataAPI.forEach(function(p) {
+					$.ajax({
+						type: "POST",
+						url: "<?php echo site_url(); ?>produk/deleteapi",
+						data: {
+							'nama_produk': p.nama_produk,
+						},
+						success: function(data) {
+							console.log(data);
+						},
+					});
+				});
+
+				setTimeout(function() {
+					window.location.replace("<?php echo base_url('welcome/index') ?>");
+				}, 5000);
 			});
 		}
 	}
