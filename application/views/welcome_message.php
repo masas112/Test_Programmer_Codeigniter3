@@ -255,11 +255,7 @@
 	}
 
 	function tambahkanDataTabel(id, nama_produk, kategori, harga, status) {
-		if (status == 1) {
-			temp = "Di Jual";
-		} else {
-			temp = "Tidak Di Jual";
-		}
+		temp = (status == 1) ? "Di Jual" : "Tidak Di Jual";
 		const table = document.getElementById('tabelproduk');
 		var row = table.insertRow();
 		row.insertCell(0).innerHTML = '<b>' + id + '</b>';
@@ -297,7 +293,20 @@
 			type: "POST",
 			url: "<?php echo site_url(); ?>api/getdataapi",
 			success: function(data) {
-				console.log(data);
+				deletetabel();
+
+				data = JSON.parse(data);
+
+				data.forEach(function(p) {
+					console.log("ID Produk: " + p.id_produk);
+					console.log("Nama Produk: " + p.nama_produk);
+					console.log("Kategori: " + p.kategori);
+					console.log("Harga: " + p.harga);
+					console.log("Status: " + p.status);
+
+					tambahkanDataTabel(p.id_produk, p.nama_produk, p.kategori, p.harga, p.status);
+				});
+
 			},
 
 		});

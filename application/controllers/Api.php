@@ -1,4 +1,9 @@
 <?php
+
+use GuzzleHttp\Psr7\Response;
+
+use function GuzzleHttp\json_decode;
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 
@@ -17,15 +22,21 @@ class Api extends CI_Controller
 
     public function getDataAPI()
     {
-        $data = $this->koneksiAPI();
-        foreach ($data as $item) {
-            $id_produk = $item->id_produk;
-            $nama_produk = $item->nama_produk;
-            $kategori = $item->kategori;
-            $harga = $item->harga;
-            $status = $item->status;
+        $itemAPI = $this->koneksiAPI();
+        $responseData = [];
+
+        foreach ($itemAPI->data as $item) {
+
+            $data = array(
+                'id_produk' => $item->id_produk, 'nama_produk' => $item->nama_produk,
+                'kategori' => $item->kategori,
+                'harga' => $item->harga,
+                'status' => ($item->status == 'bisa dijual') ? 1 : 0,
+            );
+            $responseData[] = $data;
         }
-        return $data;
+
+        echo json_encode($responseData);
     }
 
     public function koneksiAPI()
