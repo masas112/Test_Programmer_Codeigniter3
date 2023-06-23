@@ -48,46 +48,4 @@ class Produk extends CI_Controller
         $this->m_produk->Update($data);
         redirect('welcome/index');
     }
-
-    public function koneksiAPI()
-    {
-
-        $this->load->library('guzzle');
-        date_default_timezone_set('Asia/Singapore');
-        # guzzle client define
-        $client     = new GuzzleHttp\Client(['verify' => false]);
-
-        $username = "tesprogrammer" . date('d') . date('m') . date('y') . "C" . date('H');
-        $password = "bisacoding-" . date('d') . "-" . date('m') . "-" . date('y');
-
-        $queryParams = array(
-            'username' => $username,
-            'password' => md5($password)
-        );
-
-
-        #This url define speific Target for guzzle
-        $url        = 'https://recruitment.fastprint.co.id/tes/api_tes_programmer';
-
-        #guzzle
-        try {
-            # guzzle post request example with form parameter
-            $response = $client->request(
-                'POST',
-                $url,
-                [
-                    'form_params'
-                    => $queryParams
-                ]
-            );
-
-            $dataJSON = json_decode($response->getBody());
-            var_dump($dataJSON->data);
-        } catch (GuzzleHttp\Exception\BadResponseException $e) {
-            #guzzle repose for future use
-            $response = $e->getResponse();
-            $responseBodyAsString = $response->getBody()->getContents();
-            print_r($responseBodyAsString);
-        }
-    }
 }
