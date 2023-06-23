@@ -28,12 +28,26 @@ class Produk extends CI_Controller
         redirect('welcome/index');
     }
 
+    public function addAPI($nama_produk, $kategori, $harga, $status)
+    {
+
+        $data = array(
+            'nama_produk' => $nama_produk,
+            'kategori' => $kategori,
+            'harga' => $harga,
+            'status' =>  $status
+        );
+
+        $this->m_produk->Tambah($data);
+    }
+
     public function delete()
     {
         $id_produk = $this->input->post('id');
-        $this->m_produk->delete($id_produk);
+        $this->m_produk->delete($id_produk, 'id_produk');
         redirect('welcome/index');
     }
+
 
     public function edit()
     {

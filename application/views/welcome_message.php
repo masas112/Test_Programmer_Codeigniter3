@@ -10,6 +10,7 @@
 			<button id="bt_data" class="btn btn-sm btn-success mb-3" onclick="gantiData()">Data Tidak DiJual</button>
 			<button class="btn btn-sm btn-primary mb-3" onclick="AksesAPI('tampilkan')">Data API</button>
 			<button class="btn btn-sm btn-primary mb-3" onclick="AksesAPI('tambahkan')">Tambah Data API Ke DB</button>
+			<button class="btn btn-sm btn-primary mb-3" onclick="AksesAPI('hapus')">Delete Data API Di DB</button>
 		</div>
 		<table id="tabelproduk" class="table" width cellspacing="0">
 			<thead>
@@ -292,24 +293,43 @@
 		$.ajax({
 			type: "POST",
 			url: "<?php echo site_url(); ?>api/getdataapi",
-			success: function(data) {
-				data = JSON.parse(data);
-				callback(data);
+			success: function(dataAPI) {
+				dataAPI = JSON.parse(dataAPI);
+				callback(dataAPI);
 			},
 		});
 	}
 
 	function AksesAPI(cek) {
 		if (cek == 'tampilkan') {
-			DataApi(function(data) {
+			DataApi(function(dataAPI) {
 				deletetabel();
-				data.forEach(function(p) {
+				dataAPI.forEach(function(p) {
 					tambahkanDataTabel(p.id_produk, p.nama_produk, p.kategori, p.harga, p.status);
 				});
+				console.log(dataAPI);
 			});
 		} else if (cek == 'tambahkan') {
-			DataApi(function(data) {
-				console.log(data);
+			DataApi(function(dataAPI) {
+				dataAPI.forEach(function(p) {
+					$.ajax({
+						type: "POST",
+						url: "<?php echo site_url(); ?>produk/add",
+						data: {
+							'nama_produk': p.nama_produk,
+							'kategori': p.kategori,
+							'harga': p.harga,
+							'status': p.status,
+						},
+						success: function(data) {
+							console.log('Sukses');
+						},
+					});
+				});
+
+				setTimeout(function() {
+					window.location.replace("welcome/index");
+				}, 3000);
 			});
 		}
 	}

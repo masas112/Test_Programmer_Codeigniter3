@@ -19,9 +19,9 @@ class M_produk extends CI_Model
         $this->db->insert('product', $data);
     }
 
-    public function Delete($id)
+    public function Delete($id, $cek)
     {
-        $this->db->where('id_produk', $id)->delete('product');
+        $this->db->where($cek, $id)->delete('product');
         $this->db->query("CALL increment_store()");
     }
 }
