@@ -1,13 +1,19 @@
 <!-- Bootstrap core JavaScript
     ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script>
-    window.jQuery || document.write('<script src=<?= base_url("assets/js/vendor/jquery-slim.min.js") ?>><\/script>')
+
+<!-- Bootstrap core JavaScript-->
+<script src=<?= base_url("assets/vendor/jquery/jquery.min.js") ?>></script>
+<script src=<?= base_url("assets/vendor/bootstrap/js/bootstrap.bundle.min.js") ?>></script>
+
+<!-- Core plugin JavaScript-->
+<script src=<?= base_url("assets/vendor/jquery-easing/jquery.easing.min.js") ?>></script>
+
+<script src="https://appuals.com/wp-content/litespeed/localres/aHR0cHM6Ly9jb2RlLmpxdWVyeS5jb20vjquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+
+<script src="assets/js/vendor/jquery-slim.min.js">
 </script>
-<script src=<?= base_url('assets/js/vendor/popper.min.js') ?>></script>
 <script src=<?= base_url("assets/js/bootstrap.min.js") ?>></script>
-<script src=<?= base_url("assets/js/vendor/holder.min.js") ?>></script>
 <script>
     Holder.addTheme('thumb', {
         bg: '#55595c',

@@ -17,6 +17,15 @@ class Api extends CI_Controller
 
     public function getDataAPI()
     {
+        $data = $this->koneksiAPI();
+        foreach ($data as $item) {
+            $id_produk = $item->id_produk;
+            $nama_produk = $item->nama_produk;
+            $kategori = $item->kategori;
+            $harga = $item->harga;
+            $status = $item->status;
+        }
+        return $data;
     }
 
     public function koneksiAPI()

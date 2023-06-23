@@ -8,6 +8,7 @@
 			<button class="btn btn-sm btn-success mb-3" data-toggle="modal" data-target="#tambahproduk">Tambah Produk</button>
 			<button class="btn btn-sm btn-success mb-3" onclick="semuaData()">Tampilkan Semua Barang</button>
 			<button id="bt_data" class="btn btn-sm btn-primary mb-3" onclick="gantiData()">Data Tidak DiJual</button>
+			<button id="bt_data" class="btn btn-sm btn-primary mb-3" onclick="DataApi()">Data API</button>
 		</div>
 		<table id="tabelproduk" class="table" width cellspacing="0">
 			<thead>
@@ -20,24 +21,6 @@
 					<th scope="col">Opsi</th>
 				</tr>
 			</thead>
-			<!-- <tbody>
-				<?php foreach ($produk as $p) : ?>
-					<tr>
-						<th scope="row"><?= $p->id_produk; ?></th>
-						<td><?= $p->nama_produk ?></td>
-						<td><?= $p->kategori ?></td>
-						<td><?= $p->harga ?></td>
-						<td><?php if ($p->status == 1) {
-								echo 'Di jual';
-							} else {
-								echo 'tidak dijual';
-							} ?></td>
-						<td><button class="btn btn-sm btn-primary " data-toggle="modal" data-target="#editproduk" onclick="Edit('<?= $p->id_produk ?>','<?= $p->nama_produk ?> ','<?= $p->kategori ?>','<?= $p->harga ?>','<?= $p->status ?>')">Edit</button>
-							<button class="btn btn-sm btn-danger " data-toggle="modal" data-target="#hapusproduk" onclick="Delete(<?= $p->id_produk ?>)"> Hapus</button>
-						</td>
-					</tr>
-				<?php endforeach; ?>
-			</tbody> -->
 		</table>
 	</div>
 </div>
@@ -231,11 +214,10 @@
 
 
 
-
 <script>
-	i = 0;
 	document.addEventListener('DOMContentLoaded', function() {
 		tampilkanTabel(3);
+		i = 0;
 	});
 
 	function semuaData() {
@@ -307,5 +289,17 @@
 		for (let a = tabel.rows.length - 1; a > 0; a--) {
 			tabel.deleteRow(a);
 		}
+	}
+
+	function DataApi() {
+		let a;
+		$.ajax({
+			type: "POST",
+			url: "<?php echo site_url(); ?>api/getdataapi",
+			success: function(data) {
+				console.log(data);
+			},
+
+		});
 	}
 </script>
