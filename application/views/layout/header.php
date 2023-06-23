@@ -21,7 +21,5 @@
         <h5 class="my-0 mr-md-auto font-weight-normal">Test Programmer</h5>
         <nav class="my-2 my-md-0 mr-md-3">
             <a class="p-2 text-dark" href="<?php echo site_url('api/cekKoneksiAPI') ?>">Cek Koneksi</a>
-            <a class="p-2 text-dark" href="#">Username</a>
-            <a class="p-2 text-dark" href="#">Password</a>
         </nav>
     </div>

@@ -1,5 +1,6 @@
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
 	<h1 class="display-4">Tabel Produk</h1>
+	<h1 id="judultabel"></h1>
 </div>
 
 <div class="card-body row">
@@ -218,12 +219,14 @@
 
 <script>
 	document.addEventListener('DOMContentLoaded', function() {
+		document.getElementById('judultabel').innerHTML = 'Semua Produk';
 		tampilkanTabel(3);
 		i = 0;
 	});
 
 	function semuaData() {
 		deletetabel();
+		document.getElementById('judultabel').innerHTML = 'Semua Produk';
 		tampilkanTabel(3);
 	}
 
@@ -234,11 +237,13 @@
 				tampilkanTabel(0);
 				i = 1;
 				document.getElementById('bt_data').innerHTML = "Di Jual";
+				document.getElementById('judultabel').innerHTML = 'Produk Yang Tidak Di Jual';
 				break;
 			case 1:
 				tampilkanTabel(1);
 				i = 0;
 				document.getElementById('bt_data').innerHTML = "Tidak Di Jual";
+				document.getElementById('judultabel').innerHTML = 'Produk Yang Di Jual';
 				break;
 			default:
 		}
@@ -308,6 +313,7 @@
 					tambahkanDataTabel(p.id_produk, p.nama_produk, p.kategori, p.harga, p.status);
 				});
 				console.log(dataAPI);
+				document.getElementById('judultabel').innerHTML = 'Semua Produk di API';
 			});
 		} else if (cek == 'tambahkan') {
 			DataApi(function(dataAPI) {
@@ -328,7 +334,7 @@
 				});
 
 				setTimeout(function() {
-					window.location.replace("<?php echo base_url('welcome/index') ?>");
+					window.location.replace("<?php echo base_url() ?>");
 				}, 3000);
 			});
 		} else if (cek == 'hapus') {
@@ -347,7 +353,7 @@
 				});
 
 				setTimeout(function() {
-					window.location.replace("<?php echo base_url('welcome/index') ?>");
+					window.location.replace("<?php echo base_url() ?>");
 				}, 5000);
 			});
 		}
